@@ -49,11 +49,11 @@ export class MediatorManager {
 
         // Watch Display Object for removal
         if (displayObject !== undefined && mapping.autoRemoveEnabled) {
-            let observer: IDisplayObjectObserver = this._displayObjectObserverFactory(displayObject, false);
-
-            observer.addRemovedFromStageHandler(this.onRemovedFromStage);
-
-            this._observers.set(displayObject, observer);
+            if (!this._observers.has(displayObject)) {
+                let observer: IDisplayObjectObserver = this._displayObjectObserverFactory(displayObject, false);
+                observer.addRemovedFromStageHandler(this.onRemovedFromStage);
+                this._observers.set(displayObject, observer);
+            }
         }
 
         // Synchronize with item life-cycle
@@ -68,11 +68,11 @@ export class MediatorManager {
 
         // Watch Display Object for removal
         if (displayObject !== undefined && mapping.autoRemoveEnabled) {
-            let observer = this._observers.get(displayObject);
-
-            observer.destroy();
-
-            this._observers.delete(displayObject);
+            if (this._observers.has(displayObject)) {
+                let observer = this._observers.get(displayObject);
+                observer.destroy();
+                this._observers.delete(displayObject);
+            }
         }
 
         this.destroyMediator(mediator);
