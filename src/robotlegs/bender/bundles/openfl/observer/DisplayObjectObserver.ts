@@ -52,7 +52,7 @@ export class DisplayObjectObserver implements IDisplayObjectObserver {
      * @param handler
      */
     public addAddedToStageHandler(handler: Function): void {
-        if (handler !== null && handler !== undefined) {
+        if (handler !== null && handler !== undefined && this._displayObject.addEventListener !== undefined) {
             this._addedToStageHandler = handler;
             this._displayObject.addEventListener("addedToStage", this.onAddedToStage, this._useCapture);
         }
@@ -63,7 +63,7 @@ export class DisplayObjectObserver implements IDisplayObjectObserver {
      * @param handler
      */
     public addRemovedFromStageHandler(handler: Function): void {
-        if (handler !== null && handler !== undefined) {
+        if (handler !== null && handler !== undefined && this._displayObject.addEventListener !== undefined) {
             this._removedFromStageHandler = handler;
             this._displayObject.addEventListener("removedFromStage", this.onRemovedFromStage, this._useCapture);
         }
@@ -74,7 +74,7 @@ export class DisplayObjectObserver implements IDisplayObjectObserver {
      * @param handler
      */
     public addConfigureViewHandler(handler: Function): void {
-        if (handler !== null && handler !== undefined) {
+        if (handler !== null && handler !== undefined && this._displayObject.addEventListener !== undefined) {
             this._configureViewHandler = handler;
             this._displayObject.addEventListener(ConfigureViewEvent.CONFIGURE_VIEW, this.onConfigureView, this._useCapture);
         }
@@ -84,9 +84,11 @@ export class DisplayObjectObserver implements IDisplayObjectObserver {
      *
      */
     public destroy(): void {
-        this._displayObject.removeEventListener("addedToStage", this.onAddedToStage, this._useCapture);
-        this._displayObject.removeEventListener("removedFromStage", this.onRemovedFromStage, this._useCapture);
-        this._displayObject.removeEventListener(ConfigureViewEvent.CONFIGURE_VIEW, this.onConfigureView, this._useCapture);
+        if (this._displayObject.removeEventListener !== undefined) {
+            this._displayObject.removeEventListener("addedToStage", this.onAddedToStage, this._useCapture);
+            this._displayObject.removeEventListener("removedFromStage", this.onRemovedFromStage, this._useCapture);
+            this._displayObject.removeEventListener(ConfigureViewEvent.CONFIGURE_VIEW, this.onConfigureView, this._useCapture);
+        }
 
         this._displayObject = null;
 
