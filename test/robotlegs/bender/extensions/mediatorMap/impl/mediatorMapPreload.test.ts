@@ -10,9 +10,14 @@ import "../../../../../entry";
 import { assert } from "chai";
 
 import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
-import DisplayObject from "openfl/display/DisplayObject";
 
-import { IInjector, IContext, Context, TypeMatcher } from "@robotlegsjs/core";
+import { interfaces, IInjector, IContext, Context, TypeMatcher } from "@robotlegsjs/core";
+
+import { DisplayObjectObserver } from "../../../../../../src/robotlegs/bender/bundles/openfl/observer/DisplayObjectObserver";
+
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserverFactory";
 
 import { MediatorMap } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorMap";
 
@@ -20,8 +25,8 @@ import { Alpha50PercentHook } from "../support/Alpha50PercentHook";
 import { ExampleMediator } from "../support/ExampleMediator";
 import { ExampleMediator2 } from "../support/ExampleMediator2";
 import { ExampleView } from "../support/ExampleView";
+import { ExampleView2 } from "../support/ExampleView2";
 import { HappyGuard } from "../support/HappyGuard";
-import { ExampleDisplayObjectMediator } from "../support/ExampleDisplayObjectMediator";
 import { HookWithMediatorAndViewInjectionReportFunction } from "../support/HookWithMediatorAndViewInjectionReportFunction";
 import { MediatorWatcher } from "../support/MediatorWatcher";
 import { NotAView } from "../support/NotAView";
@@ -38,6 +43,11 @@ describe("MediatorMap", () => {
     beforeEach(() => {
         context = new Context();
         injector = context.injector;
+        injector.bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory).toFactory<IDisplayObjectObserver>(() => {
+            return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
+                return new DisplayObjectObserver(view, useCapture);
+            };
+        });
         mediatorMap = new MediatorMap(context);
         mediatorWatcher = new MediatorWatcher();
         injector.bind(MediatorWatcher).toConstantValue(mediatorWatcher);
@@ -116,20 +126,20 @@ describe("MediatorMap", () => {
         assert.isFalse(injector.isBound(ExampleMediator));
     });
 
-    xit("handler_creates_mediator_for_view_mapped_by_matcher", () => {
-        mediatorMap.mapMatcher(new TypeMatcher().allOf(DisplayObject)).toMediator(ExampleDisplayObjectMediator);
+    it("handler_creates_mediator_for_view_mapped_by_matcher", () => {
+        mediatorMap.mapMatcher(new TypeMatcher().allOf(ExampleView)).toMediator(ExampleMediator);
 
         mediatorMap.handleView(new ExampleView(), ExampleView);
 
-        const expectedNotifications: string[] = ["ExampleDisplayObjectMediator"];
+        const expectedNotifications: string[] = ["ExampleMediator"];
 
         assert.deepEqual(expectedNotifications, mediatorWatcher.notifications);
     });
 
-    xit("handler_doesnt_create_mediator_for_wrong_view_mapped_by_matcher", () => {
-        mediatorMap.mapMatcher(new TypeMatcher().allOf(DisplayObjectContainer)).toMediator(ExampleDisplayObjectMediator);
+    it("handler_doesnt_create_mediator_for_wrong_view_mapped_by_matcher", () => {
+        mediatorMap.mapMatcher(new TypeMatcher().allOf(ExampleView)).toMediator(ExampleMediator);
 
-        mediatorMap.handleView(new DisplayObject(), null);
+        mediatorMap.handleView(new ExampleView2(), ExampleView2);
 
         const expectedNotifications: string[] = [];
 
