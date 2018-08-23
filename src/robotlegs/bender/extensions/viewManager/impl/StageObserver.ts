@@ -59,12 +59,14 @@ export class StageObserver {
      * @private
      */
     public destroy(): void {
-        this._registry.removeEventListener(ContainerRegistryEvent.ROOT_CONTAINER_ADD, this.onRootContainerAdd);
-        this._registry.removeEventListener(ContainerRegistryEvent.ROOT_CONTAINER_REMOVE, this.onRootContainerRemove);
+        if (this._registry) {
+            this._registry.removeEventListener(ContainerRegistryEvent.ROOT_CONTAINER_ADD, this.onRootContainerAdd);
+            this._registry.removeEventListener(ContainerRegistryEvent.ROOT_CONTAINER_REMOVE, this.onRootContainerRemove);
 
-        this._registry.rootBindings.forEach((binding: ContainerBinding) => {
-            this.removeRootListener(binding.container);
-        });
+            this._registry.rootBindings.forEach((binding: ContainerBinding) => {
+                this.removeRootListener(binding.container);
+            });
+        }
 
         this._registry = null;
         this._displayObjectObserverFactory = null;
@@ -84,19 +86,19 @@ export class StageObserver {
     };
 
     private addRootListener(container: IDisplayObjectContainer): void {
-        let observer: IDisplayObjectObserver = this._displayObjectObserverFactory(container, true);
-
-        observer.addAddedToStageHandler(this.onViewAddedToStage);
-
-        this._observers.set(container, observer);
+        if (!this._observers.has(container)) {
+            let observer: IDisplayObjectObserver = this._displayObjectObserverFactory(container, true);
+            observer.addAddedToStageHandler(this.onViewAddedToStage);
+            this._observers.set(container, observer);
+        }
     }
 
     private removeRootListener(container: IDisplayObjectContainer): void {
-        let observer: IDisplayObjectObserver = this._observers.get(container);
-
-        observer.destroy();
-
-        this._observers.delete(container);
+        if (this._observers.has(container)) {
+            let observer: IDisplayObjectObserver = this._observers.get(container);
+            observer.destroy();
+            this._observers.delete(container);
+        }
     }
 
     private onViewAddedToStage = (view: IDisplayObjectContainer): void => {
