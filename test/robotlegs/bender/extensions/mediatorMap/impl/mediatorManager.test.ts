@@ -40,13 +40,11 @@ describe("MediatorManager", () => {
 
     beforeEach(() => {
         injector = new RobotlegsInjector();
-        injector
-            .bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory)
-            .toFactory<IDisplayObjectObserver>(() => {
-                return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
-                    return new DisplayObjectObserver(view, useCapture);
-                };
-            });
+        injector.bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory).toFactory<IDisplayObjectObserver>(() => {
+            return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
+                return new DisplayObjectObserver(view, useCapture);
+            };
+        });
 
         factory = new MediatorFactory(injector);
         manager = <MediatorManager>(<any>factory)._manager;
