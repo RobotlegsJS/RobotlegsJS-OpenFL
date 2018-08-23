@@ -7,9 +7,9 @@
 
 import { Event } from "@robotlegsjs/core";
 
-import { IViewHandler } from "../api/IViewHandler";
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
 
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
+import { IViewHandler } from "../api/IViewHandler";
 
 /**
  * Container existence event
@@ -32,12 +32,12 @@ export class ViewManagerEvent extends Event {
     /* Public Properties                                                          */
     /*============================================================================*/
 
-    private _container: DisplayObjectContainer;
+    private _container: IDisplayObjectContainer;
 
     /**
      * The container associated with this event
      */
-    public get container(): DisplayObjectContainer {
+    public get container(): IDisplayObjectContainer {
         return this._container;
     }
 
@@ -60,7 +60,7 @@ export class ViewManagerEvent extends Event {
      * @param container The container associated with this event
      * @param handler The view handler associated with this event
      */
-    constructor(type: string, container?: DisplayObjectContainer, handler?: IViewHandler) {
+    constructor(type: string, container?: IDisplayObjectContainer, handler?: IViewHandler) {
         super(type);
         this._container = container;
         this._handler = handler;

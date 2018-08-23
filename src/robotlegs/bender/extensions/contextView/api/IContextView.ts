@@ -5,9 +5,9 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import Stage from "openfl/display/Stage";
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
 
 export let IContextView = Symbol("IContextView");
 export interface IContextView {
-    view: Stage;
+    view: IDisplayObjectContainer;
 }

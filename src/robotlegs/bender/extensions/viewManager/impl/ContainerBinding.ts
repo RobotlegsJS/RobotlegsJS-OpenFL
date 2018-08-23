@@ -7,12 +7,12 @@
 
 import { IClass, EventDispatcher } from "@robotlegsjs/core";
 
+import { IDisplayObject } from "../../displayList/api/IDisplayObject";
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
+
 import { IViewHandler } from "../api/IViewHandler";
 
 import { ContainerBindingEvent } from "./ContainerBindingEvent";
-
-import DisplayObject from "openfl/display/DisplayObject";
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
 /*[Event(name="bindingEmpty", type="robotlegs.bender.extensions.viewManager.impl.ContainerBindingEvent")]*/
 /**
@@ -39,12 +39,12 @@ export class ContainerBinding extends EventDispatcher {
         this._parent = value;
     }
 
-    private _container: DisplayObjectContainer;
+    private _container: IDisplayObjectContainer;
 
     /**
      * @private
      */
-    public get container(): DisplayObjectContainer {
+    public get container(): IDisplayObjectContainer {
         return this._container;
     }
 
@@ -61,7 +61,7 @@ export class ContainerBinding extends EventDispatcher {
     /**
      * @private
      */
-    constructor(container: DisplayObjectContainer) {
+    constructor(container: IDisplayObjectContainer) {
         super();
         this._container = container;
     }
@@ -96,7 +96,7 @@ export class ContainerBinding extends EventDispatcher {
     /**
      * @private
      */
-    public handleView(view: DisplayObject, type: IClass<any>): void {
+    public handleView(view: IDisplayObject, type: IClass<any>): void {
         let length: number = this._handlers.length;
         for (let i: number = 0; i < length; i++) {
             let handler: IViewHandler = this._handlers[i];

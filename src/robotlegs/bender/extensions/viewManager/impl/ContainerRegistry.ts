@@ -7,11 +7,11 @@
 
 import { EventDispatcher } from "@robotlegsjs/core";
 
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
+
 import { ContainerBinding } from "./ContainerBinding";
 import { ContainerBindingEvent } from "./ContainerBindingEvent";
 import { ContainerRegistryEvent } from "./ContainerRegistryEvent";
-
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
 /*[Event(name="containerAdd", type="robotlegs.bender.extensions.viewManager.impl.ContainerRegistryEvent")]*/
 /*[Event(name="containerRemove", type="robotlegs.bender.extensions.viewManager.impl.ContainerRegistryEvent")]*/
@@ -48,7 +48,7 @@ export class ContainerRegistry extends EventDispatcher {
     /* Private Properties                                                         */
     /*============================================================================*/
 
-    private _bindingByContainer: Map<DisplayObjectContainer, ContainerBinding> = new Map<DisplayObjectContainer, ContainerBinding>();
+    private _bindingByContainer: Map<IDisplayObjectContainer, ContainerBinding> = new Map<IDisplayObjectContainer, ContainerBinding>();
 
     /*============================================================================*/
     /* Public Functions                                                           */
@@ -57,7 +57,7 @@ export class ContainerRegistry extends EventDispatcher {
     /**
      * @private
      */
-    public addContainer(container: DisplayObjectContainer): ContainerBinding {
+    public addContainer(container: IDisplayObjectContainer): ContainerBinding {
         let binding = this._bindingByContainer.get(container);
         if (!binding) {
             binding = this.createBinding(container);
@@ -69,7 +69,7 @@ export class ContainerRegistry extends EventDispatcher {
     /**
      * @private
      */
-    public removeContainer(container: DisplayObjectContainer): ContainerBinding {
+    public removeContainer(container: IDisplayObjectContainer): ContainerBinding {
         let binding: ContainerBinding = this._bindingByContainer.get(container);
 
         if (binding) {
@@ -84,8 +84,8 @@ export class ContainerRegistry extends EventDispatcher {
      *
      * @private
      */
-    public findParentBinding(target: DisplayObjectContainer): ContainerBinding {
-        let parent: DisplayObjectContainer = target.parent;
+    public findParentBinding(target: IDisplayObjectContainer): ContainerBinding {
+        let parent: IDisplayObjectContainer = target.parent;
         while (parent) {
             let binding: ContainerBinding = this._bindingByContainer.get(parent);
             if (binding) {
@@ -99,7 +99,7 @@ export class ContainerRegistry extends EventDispatcher {
     /**
      * @private
      */
-    public getBinding(container: DisplayObjectContainer): ContainerBinding {
+    public getBinding(container: IDisplayObjectContainer): ContainerBinding {
         return this._bindingByContainer.get(container);
     }
 
@@ -107,12 +107,12 @@ export class ContainerRegistry extends EventDispatcher {
     /* Private Functions                                                          */
     /*============================================================================*/
 
-    private createBinding(container: DisplayObjectContainer): ContainerBinding {
+    private createBinding(container: IDisplayObjectContainer): ContainerBinding {
         let binding: ContainerBinding = new ContainerBinding(container);
         this._bindings.push(binding);
 
         // Add a listener so that we can remove this binding when it has no handlers
-        binding.addEventListener(ContainerBindingEvent.BINDING_EMPTY, this.onBindingEmpty.bind(this));
+        binding.addEventListener(ContainerBindingEvent.BINDING_EMPTY, this.onBindingEmpty);
 
         // If the new binding doesn't have a parent it is a Root
         binding.parent = this.findParentBinding(container);
@@ -178,7 +178,7 @@ export class ContainerRegistry extends EventDispatcher {
         this.dispatchEvent(new ContainerRegistryEvent(ContainerRegistryEvent.ROOT_CONTAINER_REMOVE, binding.container));
     }
 
-    private onBindingEmpty(event: ContainerBindingEvent): void {
+    private onBindingEmpty = (event: ContainerBindingEvent): void => {
         this.removeBinding(<any>event.target);
-    }
+    };
 }

@@ -7,7 +7,7 @@
 
 import { Event } from "@robotlegsjs/core";
 
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
 
 /**
  * Container existence event
@@ -30,12 +30,12 @@ export class ContainerRegistryEvent extends Event {
     /* Public Properties                                                          */
     /*============================================================================*/
 
-    private _container: DisplayObjectContainer;
+    private _container: IDisplayObjectContainer;
 
     /**
      * The container associated with this event
      */
-    public get container(): DisplayObjectContainer {
+    public get container(): IDisplayObjectContainer {
         return this._container;
     }
 
@@ -48,7 +48,7 @@ export class ContainerRegistryEvent extends Event {
      * @param type The event type
      * @param container The container associated with this event
      */
-    constructor(type: string, container: DisplayObjectContainer) {
+    constructor(type: string, container: IDisplayObjectContainer) {
         super(type);
         this._container = container;
     }
