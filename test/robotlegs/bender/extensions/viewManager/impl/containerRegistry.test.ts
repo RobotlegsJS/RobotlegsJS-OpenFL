@@ -11,6 +11,8 @@ import { assert } from "chai";
 
 import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
+import { IDisplayObjectContainer } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectContainer";
+
 import { IViewHandler } from "../../../../../../src/robotlegs/bender/extensions/viewManager/api/IViewHandler";
 import { ContainerBinding } from "../../../../../../src/robotlegs/bender/extensions/viewManager/impl/ContainerBinding";
 import { ContainerRegistry } from "../../../../../../src/robotlegs/bender/extensions/viewManager/impl/ContainerRegistry";
@@ -97,8 +99,16 @@ describe("ContainerRegistry", () => {
         let searchItem: DisplayObjectContainer = searchTrees[1].treeChildren[3].treeChildren[3].treeChildren[3].treeChildren[3];
         let result: ContainerBinding = registry.findParentBinding(searchItem);
 
-        assert.equal(searchTrees[1].treeChildren[3], result.container, "Binding returns with correct container view");
-        assert.equal(searchTrees[1], result.parent.container, "Binding returns with correct container parent view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1].treeChildren[3],
+            result.container,
+            "Binding returns with correct container view"
+        );
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1],
+            result.parent.container,
+            "Binding returns with correct container parent view"
+        );
         assert.equal(null, result.parent.parent, "Further parents are null");
     });
 
@@ -112,9 +122,17 @@ describe("ContainerRegistry", () => {
         let searchItem: DisplayObjectContainer = searchTrees[1].treeChildren[3].treeChildren[3].treeChildren[3].treeChildren[3];
         let result: ContainerBinding = registry.findParentBinding(searchItem);
 
-        assert.equal(searchTrees[1].treeChildren[3], result.container, "Binding returns with correct container view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1].treeChildren[3],
+            result.container,
+            "Binding returns with correct container view"
+        );
 
-        assert.equal(searchTrees[1], result.parent.container, "Binding returns with correct container parent view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1],
+            result.parent.container,
+            "Binding returns with correct container parent view"
+        );
         assert.equal(null, result.parent.parent, "Further parents are null");
     });
 
@@ -128,9 +146,17 @@ describe("ContainerRegistry", () => {
         let searchItem: DisplayObjectContainer = searchTrees[1].treeChildren[3].treeChildren[2].treeChildren[3].treeChildren[3];
         let result: ContainerBinding = registry.findParentBinding(searchItem);
 
-        assert.equal(searchTrees[1].treeChildren[3].treeChildren[2], result.container, "Binding returns with correct container view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1].treeChildren[3].treeChildren[2],
+            result.container,
+            "Binding returns with correct container view"
+        );
 
-        assert.equal(searchTrees[1], result.parent.container, "Binding returns with correct container parent view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1],
+            result.parent.container,
+            "Binding returns with correct container parent view"
+        );
         assert.equal(null, result.parent.parent, "Further parents are null");
     });
 
@@ -149,12 +175,20 @@ describe("ContainerRegistry", () => {
         let result: ContainerBinding = registry.findParentBinding(searchItem);
 
         assert.equal(
-            searchTrees[1].treeChildren[3].treeChildren[2].treeChildren[3],
+            <IDisplayObjectContainer>searchTrees[1].treeChildren[3].treeChildren[2].treeChildren[3],
             result.container,
             "Binding returns with correct container view"
         );
-        assert.equal(searchTrees[1].treeChildren[3], result.parent.container, "Binding returns with correct container parent view");
-        assert.equal(searchTrees[1], result.parent.parent.container, "Binding returns with correct container parent parent view");
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1].treeChildren[3],
+            result.parent.container,
+            "Binding returns with correct container parent view"
+        );
+        assert.equal(
+            <IDisplayObjectContainer>searchTrees[1],
+            result.parent.parent.container,
+            "Binding returns with correct container parent parent view"
+        );
         assert.equal(null, result.parent.parent.parent, "Further parents are null");
     });
 
