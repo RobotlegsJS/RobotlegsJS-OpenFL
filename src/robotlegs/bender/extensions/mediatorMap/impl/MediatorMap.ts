@@ -7,7 +7,7 @@
 
 import { injectable, inject, IClass, IContext, ILogger, ITypeMatcher, TypeMatcher } from "@robotlegsjs/core";
 
-import { IDisplayObject } from "../../displayList/api/IDisplayObject";
+import { IDisplayObject } from "../../../displayList/api/IDisplayObject";
 
 import { IViewHandler } from "../../viewManager/api/IViewHandler";
 

@@ -7,7 +7,7 @@
 
 import { Event } from "@robotlegsjs/core";
 
-import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
 
 /**
  * Container existence event

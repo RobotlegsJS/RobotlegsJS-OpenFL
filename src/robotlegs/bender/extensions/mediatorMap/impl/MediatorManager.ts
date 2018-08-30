@@ -5,9 +5,9 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObject } from "../../displayList/api/IDisplayObject";
-import { IDisplayObjectObserver } from "../../displayList/api/IDisplayObjectObserver";
-import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObject } from "../../../displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../displayList/api/IDisplayObjectObserverFactory";
 
 import { IMediatorMapping } from "../api/IMediatorMapping";
 import { MediatorFactory } from "./MediatorFactory";

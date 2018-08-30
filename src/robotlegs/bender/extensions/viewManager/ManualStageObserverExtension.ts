@@ -9,7 +9,7 @@ import { IContext, IExtension, IInjector, ILogger } from "@robotlegsjs/core";
 
 import { ContainerRegistry } from "./impl/ContainerRegistry";
 import { ManualStageObserver } from "./impl/ManualStageObserver";
-import { IDisplayObjectObserverFactory } from "../displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
 
 let installCount: number = 0;
 

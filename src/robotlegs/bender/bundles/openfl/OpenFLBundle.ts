@@ -7,9 +7,9 @@
 
 import { interfaces, IBundle, IContext, ILogger, instanceOfType } from "@robotlegsjs/core";
 
-import { IDisplayObject } from "../../extensions/displayList/api/IDisplayObject";
-import { IDisplayObjectObserver } from "../../extensions/displayList/api/IDisplayObjectObserver";
-import { IDisplayObjectObserverFactory } from "../../extensions/displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObject } from "../../displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
 
 import { IContextView } from "../../extensions/contextView/api/IContextView";
 import { ContextView } from "../../extensions/contextView/impl/ContextView";

@@ -7,7 +7,7 @@
 
 import { IConfig } from "@robotlegsjs/core";
 
-import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
 
 import { IContextView } from "../api/IContextView";
 

@@ -7,10 +7,10 @@
 
 import { IClass } from "@robotlegsjs/core";
 
-import { IDisplayObject } from "../../displayList/api/IDisplayObject";
-import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
-import { IDisplayObjectObserver } from "../../displayList/api/IDisplayObjectObserver";
-import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObject } from "../../../displayList/api/IDisplayObject";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectObserver } from "../../../displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../displayList/api/IDisplayObjectObserverFactory";
 
 import { ContainerBinding } from "./ContainerBinding";
 import { ContainerRegistry } from "./ContainerRegistry";

@@ -7,7 +7,7 @@
 
 import { IContext, IExtension, IInjector, ILogger } from "@robotlegsjs/core";
 
-import { IDisplayObjectObserverFactory } from "../displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
 
 import { ContainerRegistry } from "./impl/ContainerRegistry";
 import { StageObserver } from "./impl/StageObserver";

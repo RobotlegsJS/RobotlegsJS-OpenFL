@@ -7,7 +7,7 @@
 
 import { IClass, IType, IInjector, applyHooks, guardsApprove, instantiateUnmapped, ITypeFilter } from "@robotlegsjs/core";
 
-import { IDisplayObjectObserverFactory } from "../../displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObjectObserverFactory } from "../../../displayList/api/IDisplayObjectObserverFactory";
 
 import { IMediatorMapping } from "../api/IMediatorMapping";
 

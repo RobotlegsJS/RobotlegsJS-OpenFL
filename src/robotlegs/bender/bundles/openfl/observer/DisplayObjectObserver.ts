@@ -5,8 +5,8 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObject } from "../../../extensions/displayList/api/IDisplayObject";
-import { IDisplayObjectObserver } from "../../../extensions/displayList/api/IDisplayObjectObserver";
+import { IDisplayObject } from "../../../displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../displayList/api/IDisplayObjectObserver";
 
 import { ConfigureViewEvent } from "../../../extensions/viewManager/impl/ConfigureViewEvent";
 
