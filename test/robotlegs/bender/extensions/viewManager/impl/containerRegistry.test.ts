@@ -11,7 +11,7 @@ import { assert } from "chai";
 
 import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
-import { IDisplayObjectContainer } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectContainer";
 
 import { IViewHandler } from "../../../../../../src/robotlegs/bender/extensions/viewManager/api/IViewHandler";
 import { ContainerBinding } from "../../../../../../src/robotlegs/bender/extensions/viewManager/impl/ContainerBinding";

@@ -5,8 +5,8 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObject } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObject";
-import { IDisplayObjectContainer } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectContainer";
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectContainer } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectContainer";
 
 export class MockDisplayObject implements IDisplayObject {
     private _parent: IDisplayObjectContainer;

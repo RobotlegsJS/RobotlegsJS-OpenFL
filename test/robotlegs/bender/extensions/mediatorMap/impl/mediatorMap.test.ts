@@ -11,9 +11,9 @@ import { assert } from "chai";
 
 import { interfaces, IContext, Context, TypeMatcher } from "@robotlegsjs/core";
 
-import { IDisplayObject } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObject";
-import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserver";
-import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserverFactory";
 
 import { IMediatorMapper } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/dsl/IMediatorMapper";
 import { MediatorMap } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorMap";

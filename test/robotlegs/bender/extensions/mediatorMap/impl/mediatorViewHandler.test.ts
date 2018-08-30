@@ -17,9 +17,9 @@ import { interfaces, IContext, IInjector, ITypeFilter, Context, TypeMatcher } fr
 
 import { DisplayObjectObserver } from "../../../../../../src/robotlegs/bender/bundles/openfl/observer/DisplayObjectObserver";
 
-import { IDisplayObject } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObject";
-import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserver";
-import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/extensions/displayList/api/IDisplayObjectObserverFactory";
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserverFactory";
 
 import { MediatorFactory } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorFactory";
 import { MediatorMapping } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorMapping";
