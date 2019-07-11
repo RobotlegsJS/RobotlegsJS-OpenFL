@@ -7,7 +7,7 @@
 
 import { Event } from "@robotlegsjs/core";
 
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
 
 /**
  * View Configuration Event
@@ -24,12 +24,12 @@ export class ConfigureViewEvent extends Event {
     /* Public Properties                                                          */
     /*============================================================================*/
 
-    private _view: DisplayObjectContainer;
+    private _view: IDisplayObjectContainer;
 
     /**
      * The view instance associated with this event
      */
-    public get view(): DisplayObjectContainer {
+    public get view(): IDisplayObjectContainer {
         return this._view;
     }
 
@@ -42,7 +42,7 @@ export class ConfigureViewEvent extends Event {
      * @param type The event type
      * @param view The associated view instance
      */
-    constructor(type: string, view: DisplayObjectContainer) {
+    constructor(type: string, view: IDisplayObjectContainer) {
         super(type, true);
         this._view = view;
     }

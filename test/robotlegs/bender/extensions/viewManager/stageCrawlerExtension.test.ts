@@ -11,7 +11,13 @@ import { assert } from "chai";
 
 import Stage from "openfl/display/Stage";
 
-import { IContext, Context, LogLevel } from "@robotlegsjs/core";
+import { interfaces, IContext, Context, LogLevel } from "@robotlegsjs/core";
+
+import { DisplayObjectObserver } from "../../../../../src/robotlegs/bender/bundles/openfl/observer/DisplayObjectObserver";
+
+import { IDisplayObject } from "../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserverFactory";
 
 import {
     ContextView,
@@ -37,6 +43,13 @@ describe("StageCrawlerExtension", () => {
     beforeEach(() => {
         stage = new Stage();
         context = new Context();
+        context.injector
+            .bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory)
+            .toFactory<IDisplayObjectObserver>(() => {
+                return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
+                    return new DisplayObjectObserver(view, useCapture);
+                };
+            });
     });
 
     afterEach(() => {

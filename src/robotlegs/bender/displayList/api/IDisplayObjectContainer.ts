@@ -5,9 +5,14 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObject } from "./IDisplayObject";
 
-export const IContextView = Symbol("IContextView");
-export interface IContextView {
-    view: IDisplayObjectContainer;
+export let IDisplayObjectContainer = Symbol("IDisplayObjectContainer");
+export interface IDisplayObjectContainer extends IDisplayObject {
+    children?: IDisplayObject[];
+
+    numChildren?: number;
+    getChildAt?(index: number): IDisplayObject;
+
+    contains(child: IDisplayObject): boolean;
 }

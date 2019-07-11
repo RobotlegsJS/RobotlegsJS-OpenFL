@@ -7,15 +7,15 @@
 
 import { IClass } from "@robotlegsjs/core";
 
+import { IDisplayObject } from "../../../displayList/api/IDisplayObject";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectObserver } from "../../../displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../displayList/api/IDisplayObjectObserverFactory";
+
 import { ContainerRegistryEvent } from "./ContainerRegistryEvent";
 
 import { ContainerRegistry } from "./ContainerRegistry";
 import { ContainerBinding } from "./ContainerBinding";
-
-import { ConfigureViewEvent } from "./ConfigureViewEvent";
-
-import DisplayObject from "openfl/display/DisplayObject";
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
 /**
  * @private
@@ -26,7 +26,10 @@ export class ManualStageObserver {
     /*============================================================================*/
 
     private _registry: ContainerRegistry;
-    private _eventListener: (event: ConfigureViewEvent) => void;
+
+    private _displayObjectObserverFactory: IDisplayObjectObserverFactory;
+
+    private _observers: Map<IDisplayObject, IDisplayObjectObserver> = new Map();
 
     /*============================================================================*/
     /* Constructor                                                                */
@@ -35,12 +38,13 @@ export class ManualStageObserver {
     /**
      * @private
      */
-    constructor(containerRegistry: ContainerRegistry) {
+    constructor(containerRegistry: ContainerRegistry, displayObjectObserverFactory: IDisplayObjectObserverFactory) {
         this._registry = containerRegistry;
+        this._displayObjectObserverFactory = displayObjectObserverFactory;
 
         // We care about all containers (not just roots)
-        this._registry.addEventListener(ContainerRegistryEvent.CONTAINER_ADD, this.onContainerAdd, this);
-        this._registry.addEventListener(ContainerRegistryEvent.CONTAINER_REMOVE, this.onContainerRemove, this);
+        this._registry.addEventListener(ContainerRegistryEvent.CONTAINER_ADD, this.onContainerAdd);
+        this._registry.addEventListener(ContainerRegistryEvent.CONTAINER_REMOVE, this.onContainerRemove);
 
         // We might have arrived late on the scene
         this._registry.bindings.forEach((binding: ContainerBinding) => {
@@ -56,44 +60,58 @@ export class ManualStageObserver {
      * @private
      */
     public destroy(): void {
-        this._registry.removeEventListener(ContainerRegistryEvent.CONTAINER_ADD, this.onContainerAdd, this);
-        this._registry.removeEventListener(ContainerRegistryEvent.CONTAINER_REMOVE, this.onContainerRemove, this);
+        if (this._registry) {
+            this._registry.removeEventListener(ContainerRegistryEvent.CONTAINER_ADD, this.onContainerAdd);
+            this._registry.removeEventListener(ContainerRegistryEvent.CONTAINER_REMOVE, this.onContainerRemove);
 
-        this._registry.rootBindings.forEach((binding: ContainerBinding) => {
-            this.removeContainerListener(binding.container);
-        });
+            this._registry.rootBindings.forEach((binding: ContainerBinding) => {
+                this.removeContainerListener(binding.container);
+            });
+        }
+
+        if (this._observers) {
+            this._observers.forEach((observer: IDisplayObjectObserver) => {
+                observer.destroy();
+            });
+        }
+
+        this._registry = null;
+        this._displayObjectObserverFactory = null;
+        this._observers = null;
     }
 
     /*============================================================================*/
     /* Private Functions                                                          */
     /*============================================================================*/
 
-    private onContainerAdd(event: ContainerRegistryEvent): void {
+    private onContainerAdd = (event: ContainerRegistryEvent): void => {
         this.addContainerListener(event.container);
-    }
+    };
 
-    private onContainerRemove(event: ContainerRegistryEvent): void {
+    private onContainerRemove = (event: ContainerRegistryEvent): void => {
         this.removeContainerListener(event.container);
+    };
+
+    private addContainerListener(container: IDisplayObjectContainer): void {
+        if (!this._observers.has(container)) {
+            // We're interested in ALL container bindings
+            // but just for normal, bubbling events
+            let observer: IDisplayObjectObserver = this._displayObjectObserverFactory(container, false);
+            observer.addConfigureViewHandler(this.onConfigureView);
+            this._observers.set(container, observer);
+        }
     }
 
-    private addContainerListener(container: DisplayObjectContainer): void {
-        // We're interested in ALL container bindings
-        // but just for normal, bubbling events
-        this._eventListener = this.onConfigureView.bind(this);
-        container.addEventListener(ConfigureViewEvent.CONFIGURE_VIEW, this._eventListener);
+    private removeContainerListener(container: IDisplayObjectContainer): void {
+        if (this._observers.has(container)) {
+            let observer: IDisplayObjectObserver = this._observers.get(container);
+            observer.destroy();
+            this._observers.delete(container);
+        }
     }
 
-    private removeContainerListener(container: DisplayObjectContainer): void {
-        container.removeEventListener(ConfigureViewEvent.CONFIGURE_VIEW, this._eventListener);
-    }
-
-    private onConfigureView(event: ConfigureViewEvent): void {
-        // Stop that event!
-        event.stopPropagation();
-
-        let container: DisplayObjectContainer = <DisplayObjectContainer>event.currentTarget;
-        let view: DisplayObject = <DisplayObject>event.target;
+    private onConfigureView = (container: IDisplayObjectContainer, view: IDisplayObject): void => {
         let type: IClass<any> = <IClass<any>>view.constructor;
         this._registry.getBinding(container).handleView(view, type);
-    }
+    };
 }

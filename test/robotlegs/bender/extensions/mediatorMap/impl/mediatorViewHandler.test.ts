@@ -13,7 +13,13 @@ import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 import DisplayObject from "openfl/display/DisplayObject";
 import Sprite from "openfl/display/Sprite";
 
-import { IContext, IInjector, ITypeFilter, Context, TypeMatcher } from "@robotlegsjs/core";
+import { interfaces, IContext, IInjector, ITypeFilter, Context, TypeMatcher } from "@robotlegsjs/core";
+
+import { DisplayObjectObserver } from "../../../../../../src/robotlegs/bender/bundles/openfl/observer/DisplayObjectObserver";
+
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserverFactory";
 
 import { MediatorFactory } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorFactory";
 import { MediatorMapping } from "../../../../../../src/robotlegs/bender/extensions/mediatorMap/impl/MediatorMapping";
@@ -31,6 +37,11 @@ describe("MediatorViewHandler", () => {
     beforeEach(() => {
         context = new Context();
         injector = context.injector;
+        injector.bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory).toFactory<IDisplayObjectObserver>(() => {
+            return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
+                return new DisplayObjectObserver(view, useCapture);
+            };
+        });
         factory = new MediatorFactory(injector);
         handler = new MediatorViewHandler(factory);
         context.initialize();

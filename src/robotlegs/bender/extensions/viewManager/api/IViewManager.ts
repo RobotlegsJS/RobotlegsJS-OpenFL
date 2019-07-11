@@ -6,9 +6,10 @@
 // ------------------------------------------------------------------------------
 
 import { IEventDispatcher } from "@robotlegsjs/core";
-import { IViewHandler } from "./IViewHandler";
 
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
+import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+
+import { IViewHandler } from "./IViewHandler";
 
 /*[Event(name="containerAdd", type="robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent")]*/
 /*[Event(name="containerRemove", type="robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent")]*/
@@ -18,24 +19,24 @@ import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 /**
  * The View Manager allows you to add multiple "view root" containers to a context
  */
-export let IViewManager = Symbol("IViewManager");
+export const IViewManager = Symbol("IViewManager");
 export interface IViewManager extends IEventDispatcher {
     /**
      * A list of currently registered containers
      */
-    containers: DisplayObjectContainer[];
+    containers: IDisplayObjectContainer[];
 
     /**
      * Adds a container as a "view root" into the context
      * @param container
      */
-    addContainer(container: DisplayObjectContainer): void;
+    addContainer(container: IDisplayObjectContainer): void;
 
     /**
      * Removes a container from this context
      * @param container
      */
-    removeContainer(container: DisplayObjectContainer): void;
+    removeContainer(container: IDisplayObjectContainer): void;
 
     /**
      * Registers a view handler

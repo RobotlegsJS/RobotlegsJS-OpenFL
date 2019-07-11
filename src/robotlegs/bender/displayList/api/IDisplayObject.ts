@@ -5,9 +5,9 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+import { IDisplayObjectContainer } from "./IDisplayObjectContainer";
 
-export const IContextView = Symbol("IContextView");
-export interface IContextView {
-    view: IDisplayObjectContainer;
+export let IDisplayObject = Symbol("IDisplayObject");
+export interface IDisplayObject {
+    parent: IDisplayObjectContainer;
 }

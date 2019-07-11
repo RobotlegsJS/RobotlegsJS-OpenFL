@@ -5,9 +5,6 @@
 //  in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
 
-import { IDisplayObjectContainer } from "../../../displayList/api/IDisplayObjectContainer";
+import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
-export const IContextView = Symbol("IContextView");
-export interface IContextView {
-    view: IDisplayObjectContainer;
-}
+export class ExampleView2 extends DisplayObjectContainer {}

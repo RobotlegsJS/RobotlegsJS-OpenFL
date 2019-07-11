@@ -7,14 +7,14 @@
 
 import { IContext, IExtension, IInjector, ILogger } from "@robotlegsjs/core";
 
+import { IDisplayObjectContainer } from "../../displayList/api/IDisplayObjectContainer";
+
 import { IContextView } from "../contextView/api/IContextView";
 
 import { IViewManager } from "./api/IViewManager";
 import { ContainerBinding } from "./impl/ContainerBinding";
 import { ContainerRegistry } from "./impl/ContainerRegistry";
 import { StageCrawler } from "./impl/StageCrawler";
-
-import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
 /**
  * View Handlers (like the MediatorMap) handle views as they land on stage.
@@ -58,7 +58,7 @@ export class StageCrawlerExtension implements IExtension {
     private scanViewManagedContainers(): void {
         this._logger.debug("ViewManager is installed. Checking for managed containers...");
         let viewManager: IViewManager = this._injector.get<IViewManager>(IViewManager);
-        viewManager.containers.forEach((container: DisplayObjectContainer) => {
+        viewManager.containers.forEach((container: IDisplayObjectContainer) => {
             this.scanContainer(container);
         });
     }
@@ -73,7 +73,7 @@ export class StageCrawlerExtension implements IExtension {
         }
     }
 
-    private scanContainer(container: DisplayObjectContainer): void {
+    private scanContainer(container: IDisplayObjectContainer): void {
         let binding: ContainerBinding = this._containerRegistry.getBinding(container);
         this._logger.debug("StageCrawler scanning container {0} ...", [container]);
         new StageCrawler(binding).scan(container);

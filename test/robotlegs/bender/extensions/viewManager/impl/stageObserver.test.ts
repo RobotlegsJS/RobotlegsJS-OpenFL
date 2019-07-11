@@ -12,7 +12,13 @@ import { assert } from "chai";
 import Stage from "openfl/display/Stage";
 import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 
-import { IClass } from "@robotlegsjs/core";
+import { interfaces, IInjector, IClass, IContext, Context } from "@robotlegsjs/core";
+
+import { DisplayObjectObserver } from "../../../../../../src/robotlegs/bender/bundles/openfl/observer/DisplayObjectObserver";
+
+import { IDisplayObject } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObject";
+import { IDisplayObjectObserver } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserver";
+import { IDisplayObjectObserverFactory } from "../../../../../../src/robotlegs/bender/displayList/api/IDisplayObjectObserverFactory";
 
 import { ContainerRegistry } from "../../../../../../src/robotlegs/bender/extensions/viewManager/impl/ContainerRegistry";
 import { StageObserver } from "../../../../../../src/robotlegs/bender/extensions/viewManager/impl/StageObserver";
@@ -20,17 +26,33 @@ import { StageObserver } from "../../../../../../src/robotlegs/bender/extensions
 import { CallbackViewHandler } from "../support/CallbackViewHandler";
 
 describe("StageObserver", () => {
+    let context: IContext = null;
+    let injector: IInjector = null;
     let stage: Stage = null;
     let registry: ContainerRegistry = null;
     let observer: StageObserver = null;
 
     beforeEach(() => {
+        context = new Context();
+        injector = context.injector;
+        injector.bind<interfaces.Factory<IDisplayObjectObserver>>(IDisplayObjectObserverFactory).toFactory<IDisplayObjectObserver>(() => {
+            return (view: IDisplayObject, useCapture: boolean): IDisplayObjectObserver => {
+                return new DisplayObjectObserver(view, useCapture);
+            };
+        });
         stage = new Stage();
         registry = new ContainerRegistry();
-        observer = new StageObserver(registry);
+        observer = new StageObserver(registry, injector.get(IDisplayObjectObserverFactory));
     });
 
     afterEach(() => {
+        if (context.initialized) {
+            context.destroy();
+        }
+
+        context = null;
+        injector = null;
+
         observer.destroy();
         observer = null;
         registry = null;
